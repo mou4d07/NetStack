@@ -1,0 +1,6 @@
+@NetMapManager.API_HostAddress = http://localhost:5221
+
+GET {{NetMapManager.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
