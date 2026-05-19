@@ -24,11 +24,11 @@ namespace NetMapManager.API.Services
         public static ConcurrentDictionary<int, SwitchPingResult> PingResults { get; } = new();
 
         // How often to run a full ping cycle (seconds)
-        private const int PingIntervalSeconds = 15;
+        private const int PingIntervalSeconds = 240; // 4 minutes
         // Ping timeout per switch (ms)
         private const int PingTimeoutMs = 2000;
         // Number of consecutive failures before marking as DOWN
-        public const int FailureThreshold = 5;
+        public const int FailureThreshold = 3; // Adjusted to 2 failures (8 mins total) since the interval is longer
 
         public PingMonitorService(IServiceScopeFactory scopeFactory, ILogger<PingMonitorService> logger)
         {

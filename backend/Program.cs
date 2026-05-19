@@ -37,7 +37,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("NextJsCors", corsBuilder =>
     {
-        corsBuilder.WithOrigins("http://localhost:3000") // Next.js Dev Server
+        corsBuilder.WithOrigins("http://localhost:3000", "http://localhost:3001", "http://localhost:3002") // Next.js Dev Server
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials(); // REQUIRED: For Windows Auth / NTLM over CORS
@@ -46,6 +46,7 @@ builder.Services.AddCors(options =>
 
 // Register custom services
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<TerminalService>();
 
 // Register background ping monitor
 builder.Services.AddHostedService<PingMonitorService>();
@@ -66,6 +67,28 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("NextJsCors");
 app.UseStaticFiles();
+
+app.UseWebSockets();
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.Value != null && context.Request.Path.Value.EndsWith("/ws/terminal", StringComparison.OrdinalIgnoreCase))
+    {
+        if (context.WebSockets.IsWebSocketRequest)
+        {
+            using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var terminalService = context.RequestServices.GetRequiredService<TerminalService>();
+            await terminalService.HandleTerminalSession(context, webSocket);
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+    }
+    else
+    {
+        await next(context);
+    }
+});
 
 // app.UseAuthentication();
 // app.UseAuthorization();
