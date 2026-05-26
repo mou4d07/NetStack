@@ -14,6 +14,9 @@ namespace NetMapManager.API.Models
         public string SerialNumber { get; set; } = string.Empty;
         public string Status { get; set; } = "Online"; // Online, Offline, Maintenance
         
+        public int? ZoneId { get; set; }
+        public Zone? Zone { get; set; }
+        
         // Self-referencing relationship for hierarchy
         public int? ParentSwitchId { get; set; }
         public NetworkSwitch? ParentSwitch { get; set; }

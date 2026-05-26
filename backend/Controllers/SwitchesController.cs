@@ -68,6 +68,7 @@ namespace NetMapManager.API.Controllers
             existingSwitch.SerialNumber = updatedSwitch.SerialNumber;
             existingSwitch.Status = updatedSwitch.Status;
             existingSwitch.AllowedVlans = updatedSwitch.AllowedVlans;
+            existingSwitch.ZoneId = updatedSwitch.ZoneId;
 
             try
             {

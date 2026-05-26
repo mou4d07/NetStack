@@ -7,6 +7,13 @@ namespace NetMapManager.API.Data
     {
         public NetMapDbContext(DbContextOptions<NetMapDbContext> options) : base(options) { }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(w =>
+                w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+        }
+
+
         public DbSet<AuthorizedUser> AuthorizedUsers { get; set; }
         public DbSet<NetworkSwitch> NetworkSwitches { get; set; }
         public DbSet<Link> Links { get; set; }
@@ -14,6 +21,7 @@ namespace NetMapManager.API.Data
         public DbSet<InventoryItem> InventoryItems { get; set; }
         public DbSet<SwitchModel> SwitchModels { get; set; }
         public DbSet<VlanDefinition> VlanDefinitions { get; set; }
+        public DbSet<Zone> Zones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

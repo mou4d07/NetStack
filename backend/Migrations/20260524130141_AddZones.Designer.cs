@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetMapManager.API.Data;
 
@@ -11,9 +12,11 @@ using NetMapManager.API.Data;
 namespace NetMapManager.API.Migrations
 {
     [DbContext(typeof(NetMapDbContext))]
-    partial class NetMapDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260524130141_AddZones")]
+    partial class AddZones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,10 +293,6 @@ namespace NetMapManager.API.Migrations
 
                     b.Property<double>("Height")
                         .HasColumnType("float");
-
-                    b.Property<string>("LabelPosition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
